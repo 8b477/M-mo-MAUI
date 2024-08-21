@@ -2,23 +2,23 @@
 
 ## Sommaire
 
-- <a name="one">Fichier Ressources. </a>
-- <a name="two">Les cycles de vie. </a>
-- <a name="three">Gestion des événements dans le XAML. </a>
-- <a name="four">MauiProgram et injection de dépendance. </a>
-- <a name="five">Personalisé l'écran de démarrage. </a>
-- <a name="six">Gérer la navigation. </a>
-- <a name="seven">InitializeComponent à quoi ça sert ? </a>
-- <a name="eight">Qu’est-ce qu’un espace de noms XAML ? </a>
-- <a name="nine">Créer une extension de balisage. </a>
-- <a name="ten">Hiérarchie des balises + liste de celle les plus utiliser dans un fichier .xaml </a>
-- <a name="eleven">Exemple d’affichage dynamique de données </a>
+- [Fichier Ressources.](#one)
+- [Les cycles de vie.](#two)
+- [Gestion des événements dans le XAML.](#three)
+- [MauiProgram et injection de dépendance.](#four)
+- [Personalisé l'écran de démarrage.](#five)
+- [Gérer la navigation.](#six)
+- [InitializeComponent à quoi ça sert ?](#seven)
+- [Qu’est-ce qu’un espace de noms XAML ?](#eight)
+- [Créer une extension de balisage.](#nine)
+- [Hiérarchie des balises + liste de celle les plus utiliser dans un fichier .xaml](#ten)
+- [Exemple d’affichage dynamique de données](#eleven)
 
 ---
 
 <br>
 
-## [Les fonts, le style, les images, .. :](#one)
+## <a name="one">Fichier Ressources : </a>
 
 Tout ce qui est commun dans l'application ce trouve dans le fichier `Ressources`
 Et la référence à ceci se trouve dans `App.xaml` dans la balise `<ResourceDictionary>`
@@ -44,7 +44,7 @@ Et la référence à ceci se trouve dans `App.xaml` dans la balise `<ResourceDic
 
 <br>
 
-## [Les cycles de vies :](#two)
+## <a name="two">Les cycles de vies : </a>
 
 La gestion des cycles de vie se fait côté 'behind' c'est à dire dans la classe .cs et n'ont pas directement dans le fichier .xaml
 
@@ -79,7 +79,7 @@ public partial class MainPage : Application
 
 <br>
 
-## [Gestion des événements dans le XAML :](#three)
+## <a name="three">Gestion des événements dans le XAML : </a>
 
 Si on reprend l'exemple du compteur qui est dans l'app par défaut.
 
@@ -123,7 +123,7 @@ private void OnCounterClicked(object sender, EventArgs e)
 
 <br>
 
-## [Class MauiProgram spécifique pour chaque plateforme (android, IOS, ect) et injection de dépendance.](#four)
+## <a name="four">Class MauiProgram spécifique pour chaque plateforme (android, IOS, ect) et injection de dépendance. </a>
 
 Chaque plateforme native a un point de départ différent, qui crée et initialise l’application. Vous pouvez trouver ce code dans le dossier Plateformes du projet. On remarque que l'on lui donne le type de la classe de démarage de notre programme : `UserMauiApp<App>()` **App**, ensuite ont peut chainer des méthodes de configuration, par exemple dans le code ci dessous, une injection de dépendance pour des fichiers de type font.
 
@@ -152,7 +152,7 @@ public static class MauiProgram
 
 <br>
 
-## [Personaliser l'écran de démarage de l'application](#five)
+## <a name="five">Personaliser l'écran de démarage de l'application </a>
 
 La section **ItemGroup** située sous le groupe de propriétés initial vous permet de spécifier une image et une couleur pour l’écran de démarrage qui s’affiche durant le chargement de l’application, avant l’apparition de la première fenêtre. Vous pouvez également définir les emplacements par défaut des polices, des images et des ressources utilisées par l’application.
 
@@ -188,7 +188,7 @@ La section **ItemGroup** située sous le groupe de propriétés initial vous per
 
 <br>
 
-## [Gestion de la navigation :](#six)
+## <a name="six">Gestion de la navigation : </a>
 
 Les fichiers AppShell.xaml et AppShell.xaml.cs qui spécifient la page initiale de l’application et gèrent l’inscription des pages pour le routage de la navigation et la façon dont la navigation s'affiche un exemple pour la nav à gauche et le second pour une nav plus classique en haut de l'app.
 
@@ -254,7 +254,7 @@ Supprimer la balise _Shell.FlyoutBehavior=""_ si on utilise la balise \*\*<TabBa
 
 <br>
 
-## [InitializeComponent :](#seven)
+## <a name="seven">InitializeComponent : </a>
 
 ```c#
 namespace MauiXaml;
@@ -275,7 +275,7 @@ La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la des
 
 <br>
 
-## [Qu’est-ce qu’un espace de noms XAML ?](#eight)
+## <a name="eight">Qu’est-ce qu’un espace de noms XAML ? </a>
 
 ```xml
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -319,7 +319,7 @@ Pour plus d'infos sur la façon de créer ce genre de classe, regarder la sectio
 
 <br>
 
-## [Créer une extension de balisage](#nine)
+## <a name="nine">Créer une extension de balisage </a>
 
 Tout dabord avant de commencer de créer sa propre classe pour gérer des propriétés de façon global il faut savoir que MAUI nous met à la disposition un pannel pré-fabriquer pour nous aider à construire les vues .xaml facilement, on peut consulter le fichier dans le folder **Ressources** -> **Styles** -> **Styles.xaml**.
 
@@ -384,27 +384,27 @@ Avantage de cette méthode ?
 
 <br>
 
-## [Hiérarchie des balises + liste de celle les plus utiliser dans un fichier .xaml :](#ten)
+## <a name="ten">Hiérarchie des balises + liste de celle les plus utiliser dans un fichier .xaml : </a>
 
 Balises de base
 
-- <ContentPage> : Conteneur principal pour une page dans une application MAUI.
-- <ScrollView> : Permet de faire défiler son contenu.
-- <VerticalStackLayout> : Organise les vues enfants dans une pile verticale.
-- <Grid> : Conteneur de mise en page flexible qui permet de disposer les éléments en lignes et colonnes.
-- <StackPanel> : Conteneur de mise en page qui empile les éléments enfants horizontalement ou verticalement.
-- <Canvas> : Conteneur de mise en page qui permet de positionner les éléments enfants en utilisant des coordonnées absolues.
+- `<ContentPage>` : Conteneur principal pour une page dans une application MAUI.
+- `<ScrollView>` : Permet de faire défiler son contenu.
+- `<VerticalStackLayout>` : Organise les vues enfants dans une pile verticale.
+- `<Grid>` : Conteneur de mise en page flexible qui permet de disposer les éléments en lignes et colonnes.
+- `<StackPanel>` : Conteneur de mise en page qui empile les éléments enfants horizontalement ou verticalement.
+- `<Canvas>` : Conteneur de mise en page qui permet de positionner les éléments enfants en utilisant des coordonnées absolues.
   Balises de contrôle
-- <Button> : Représente un bouton cliquable.
-- <TextBox> : Représente une zone de texte éditable.
-- <Label> : Représente un texte non éditable.
-- <Image> : Affiche une image.
-- <ListView> : Affiche une liste d’éléments.
-- <ComboBox> : Représente une liste déroulante.
+- `<Button>` : Représente un bouton cliquable.
+- `<TextBox>` : Représente une zone de texte éditable.
+- `<Label>` : Représente un texte non éditable.
+- `<Image>` : Affiche une image.
+- `<ListView>` : Affiche une liste d’éléments.
+- `<ComboBox>` : Représente une liste déroulante.
   Balises pour l’affichage dynamique de données
-- <CollectionView> : Affiche une collection de données sous forme de liste ou de grille.
-- <DataTemplate> : Définit la structure visuelle pour chaque élément de données.
-- <Binding> : Lie une propriété d’un contrôle à une source de données.
+- `<CollectionView>` : Affiche une collection de données sous forme de liste ou de grille.
+- `<DataTemplate>` : Définit la structure visuelle pour chaque élément de données.
+- `<Binding>` : Lie une propriété d’un contrôle à une source de données.
 
 Hiérarchie example
 
@@ -429,7 +429,7 @@ Hiérarchie example
 </ContentPage>
 ```
 
-## [Exemple d’affichage dynamique de données :](#eleven)
+## <a name="eleven">Exemple d’affichage dynamique de données : </a>
 
 1. Fichier C#
 
