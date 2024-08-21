@@ -274,6 +274,8 @@ public partial class Page1 : ContentPage
 
 La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la description XAML de la page, charge les divers contrôles sur cette page et définit leurs propriétés. Ce qui nous permet après d'implémenter des logiques en ciblant les éléments souhaiter.   
 
+*Résumer ça bind la vue (MonFichier.xaml) avec la logique C# (MonFichier.xaml.cs)*  
+
 **Important le code logique dois se trouver après cette méthode.**
 
 ---
