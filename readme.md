@@ -218,6 +218,7 @@ Les fichiers AppShell.xaml et AppShell.xaml.cs qui spécifient la page initiale 
 **Shell.FlyoutBehavior="Locked"**  
 ou  
 **Shell.FlyoutBehavior="Flyout"**  
+
 Affiche une navigation sous forme de side barre à gauche.
 
 ```xml
@@ -282,53 +283,26 @@ La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la des
 
 <br>
 
-## <a name="eight">Comprendre les espace de nom dans les fichiers XAML </a>
-
-```xml
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" >
-
-</ContentPage>
-```
-
-Le premier espace de nom : `xmlns="http://schemas.microsoft.com/dotnet/2021/maui"`,  
-
-Si cet espace de noms n'est pas spécifier, on ne pourras pas utiliser de contrôles tels que `Button`, `Label`, `Entry` ou `StackLayout`  
-
-C'est donc l'espace de nom global pour utiliser les balises MAUI présente.
-
-```xml
-<ContentPage
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="MauiXaml.Page1" >
-
-</ContentPage>
-```
-
-Le second espace de nom : `xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"`,  
-
-Permet de manipuler les propriétés présente dans le code .xaml celui-ci est suivis de `x:Class="MauiXaml.Page1"`  
-
-pour spécifier qui vas récupérer et gérer ses propriétés, ici je dit que la gestion de ma logique sera géré par ma classe `Page1` présente dans le namespace `MauiXaml` ce qui donne `MauiXaml.Page1`.  
-
-On récupère le préfix `:x` de `xmlns:x` pour lui associé la classe `x:Class=""`
+## <a name="eight">Comprendre les espace de nom dans les fichiers XAML </a>  
 
 ```xml
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:mycode="clr-namespace:MyMauiApp" // Explication de 'clr-namespace' dans la section suivante
+             xmlns:mycode="clr-namespace:MyMauiApp"
              x:Class="MyMauiApp.Page1" >
 </ContentPage>
 ```
+- `xmlns="http://schemas.microsoft.com/dotnet/2021/maui"` :
+  -  Définit l'espace de noms principal pour les contrôles MAUI comme Button, Label, etc.
 
-Dans le code ci-dessus j'ajoute un namespace dans lequelle j'ai une gestion de la propriétés **FontSize** personnalisé, je lui donne un préfix `:mycode` pour une utilisation plus facile, ce qui me permet dans mon code **.xaml** de faire ceci :
+- `xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"` :
+  - Définit l'espace de noms pour les fonctionnalités spécifiques à XAML, comme x:Class, qui relie le fichier XAML à la classe code-behind.
 
-```xml
-<Label Text="Hello, World!"
-       FontSize="{mycode:GlobalFontSize}" />
-```
+- `xmlns:mycode="clr-namespace:MyMauiApp"` :
+  - Définit un préfixe mycode pour référencer les classes dans le namespace MyMauiApp de votre code C#. Cela permet d'utiliser des éléments définis dans ce namespace directement dans votre fichier XAML. Le clr-namespace indique que le namespace est un namespace Common Language Runtime (CLR) de .NET.
 
-Pour plus d'infos sur la façon de créer ce genre de classe, regarder la section suivante _Créer une extension de balisage_.
+- `x:Class="MyMauiApp.Page1"` :
+  - Spécifie que le code-behind pour cette page XAML est la classe Page1 dans le namespace MyMauiApp.
 
 <br>
 
@@ -338,7 +312,7 @@ Tout dabord avant de commencer de créer sa propre classe pour gérer des propri
 
 Dans le template de base générer par Visual Studio, on peut voire l'utilisation de **Styles.xaml** dans le fichier **MainPage.xaml**.  
 
-_Sont utilisation est un peu spécial car il s'agit d'un fichier static commun pour toute l'application_
+_L'utilisation est un peu spécial car il s'agit d'un fichier static commun pour toute l'application_
 
 ```xml
     <Label
@@ -373,14 +347,6 @@ public class GlobalFontSizeExtension : IMarkupExtension
 ```
 
 Utilisation dans le code .xaml (ne pas oublier de déclarer le namespace en premier)
-
-**Remarque**
-
-- Le préfixe `clr-namespace_ dans _xmlns:mycode="clr-namespace:MyMauiApp"` est utilisé pour indiquer que l’espace de noms spécifié est un espace de noms du Common Language Runtime (CLR).
-  En d’autres termes, il s’agit d’un espace de noms défini dans le **code .NET**, et non d’un **espace de noms XML standard**.
-  
-- En résumer quand ont crée plusieurs classe dans le même namespace il faut spécifier comment il peut retrouver ces classe et les différencier, `clr-namespace` aide à lier les éléments **XAML** aux classes définies dans votre projet, même si elles partagent le même espace de noms.
-
 ```xml
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
