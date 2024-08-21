@@ -20,7 +20,7 @@
 
 ## <a name="one">Fichier Ressources : </a>
 
-Pour accéder à ce fichier fait un clique ou un double clique sur le nom de ta solution.
+Ce fichier se trouve à la racine du projet **App.xaml**.
 Tout ce qui est commun dans l'application ce trouve dans le fichier `Ressources`
 Et la référence à ceci se trouve dans `App.xaml` dans la balise `<ResourceDictionary>`
 
@@ -155,6 +155,7 @@ public static class MauiProgram
 
 ## <a name="five">Personaliser l'écran de démarage de l'application </a>
 
+Pour accéder à ce fichier fait un clique ou un double clique sur le nom de ta solution.  
 La section **ItemGroup** située sous le groupe de propriétés initial vous permet de spécifier une image et une couleur pour l’écran de démarrage qui s’affiche durant le chargement de l’application, avant l’apparition de la première fenêtre. Vous pouvez également définir les emplacements par défaut des polices, des images et des ressources utilisées par l’application.
 
 ```xml
