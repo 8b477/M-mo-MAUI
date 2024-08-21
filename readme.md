@@ -4,12 +4,12 @@
 
 - [Fichier Ressources.](#one)
 - [Les cycles de vie.](#two)
-- [Gestion des événements dans le XAML.](#three)
-- [MauiProgram et injection de dépendance.](#four)
-- [Personalisé l'écran de démarrage.](#five)
-- [Gérer la navigation.](#six)
+- [Gestion des événements.](#three)
+- [Injection de dépendance.](#four)
+- [Gestion de l'écran de démarrage.](#five)
+- [Navigation.](#six)
 - [InitializeComponent à quoi ça sert ?](#seven)
-- [Qu’est-ce qu’un espace de noms XAML ?](#eight)
+- [Les espaces de noms XAML.](#eight)
 - [Créer une extension de balisage.](#nine)
 - [Hiérarchie des balises + liste de celle les plus utiliser dans un fichier .xaml](#ten)
 - [Exemple d’affichage dynamique de données](#eleven)
@@ -80,7 +80,7 @@ public partial class MainPage : Application
 
 <br>
 
-## <a name="three">Gestion des événements dans le XAML : </a>
+## <a name="three">Gestion des événements : </a>
 
 Si on reprend l'exemple du compteur qui est dans l'app par défaut.
 
@@ -124,7 +124,7 @@ private void OnCounterClicked(object sender, EventArgs e)
 
 <br>
 
-## <a name="four">Class MauiProgram spécifique pour chaque plateforme (android, IOS, ect) et injection de dépendance. </a>
+## <a name="four">Comprendre la Class MauiProgram spécifique pour chaque plateforme (android, IOS, ect) + l'injection de dépendance. </a>
 
 Chaque plateforme native a un point de départ différent, qui crée et initialise l’application.  
 Vous pouvez trouver le code ci-dessous à la racine du projet il se nomme **MauiProogram.cs**.  
@@ -155,7 +155,7 @@ public static class MauiProgram
 
 <br>
 
-## <a name="five">Personaliser l'écran de démarage de l'application </a>
+## <a name="five">Comprendre et personaliser l'écran de démarage de l'application </a>
 
 Pour accéder à ce fichier fait un clique ou un double clique sur le nom de ta solution.  
 La section **ItemGroup** située sous le groupe de propriétés initial vous permet de spécifier une image et une couleur pour l’écran de démarrage qui s’affiche durant le chargement de l’application, avant l’apparition de la première fenêtre. Vous pouvez également définir les emplacements par défaut des polices, des images et des ressources utilisées par l’application.
@@ -282,7 +282,7 @@ La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la des
 
 <br>
 
-## <a name="eight">Qu’est-ce qu’un espace de noms XAML ? </a>
+## <a name="eight">Comprendre les espace de nom dans les fichiers XAML </a>
 
 ```xml
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
