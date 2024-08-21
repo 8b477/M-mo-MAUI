@@ -20,6 +20,7 @@
 
 ## <a name="one">Fichier Ressources : </a>
 
+Pour accéder à ce fichier fait un clique ou un double clique sur le nom de ta solution.
 Tout ce qui est commun dans l'application ce trouve dans le fichier `Ressources`
 Et la référence à ceci se trouve dans `App.xaml` dans la balise `<ResourceDictionary>`
 
@@ -125,7 +126,7 @@ private void OnCounterClicked(object sender, EventArgs e)
 
 ## <a name="four">Class MauiProgram spécifique pour chaque plateforme (android, IOS, ect) et injection de dépendance. </a>
 
-Chaque plateforme native a un point de départ différent, qui crée et initialise l’application. Vous pouvez trouver ce code dans le dossier Plateformes du projet. On remarque que l'on lui donne le type de la classe de démarage de notre programme : `UserMauiApp<App>()` **App**, ensuite ont peut chainer des méthodes de configuration, par exemple dans le code ci dessous, une injection de dépendance pour des fichiers de type font.
+Chaque plateforme native a un point de départ différent, qui crée et initialise l’application. Vous pouvez trouver le code ci-dessous à la racine du projet il se nomme **MauiProogram.cs**. On remarque que l'on lui donne le type de la classe de démarage de notre programme : `UserMauiApp<App>()` **App**, ensuite ont peut chainer des méthodes de configuration, par exemple dans le code ci dessous, une injection de dépendance pour des fichiers de type font.
 
 ```c#
 namespace MyMauiApp;
