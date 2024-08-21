@@ -20,9 +20,9 @@
 
 ## <a name="one">Fichier Ressources : </a>
 
-Ce fichier se trouve à la racine du projet **App.xaml**.
-Tout ce qui est commun dans l'application ce trouve dans le fichier `Ressources`
-Et la référence à ceci se trouve dans `App.xaml` dans la balise `<ResourceDictionary>`
+Ce fichier se trouve à la racine du projet **App.xaml**.  
+Tout ce qui est commun dans l'application ce trouve dans le fichier `Ressources`  
+Et la référence à ceci se trouve dans `App.xaml` dans la balise `<ResourceDictionary>`  
 
 ```xml
 <?xml version = "1.0" encoding = "UTF-8" ?>
@@ -92,15 +92,15 @@ Si on reprend l'exemple du compteur qui est dans l'app par défaut.
     HorizontalOptions="Fill" />
 ```
 
-On donne un nom pour pouvoir le cibler côté .cs , celui-ci seras présent du côté .cs comme une variable donc elle doit avoir un nom unique.
+On donne un nom pour pouvoir le cibler côté .cs , celui-ci seras présent du côté .cs comme une variable donc elle doit avoir un nom unique.  
 `x:Name="CounterBtn"`
 
 Et côté code _behind_ donc fichier .cs il y a deux étape.
 
-1. Accéder au bonne élément par son nom et lui assigner une valeur :
+1. Accéder au bonne élément par son nom et lui assigner une valeur :  
    => `CounterBtn.Text = $"Clicked {count} time";`
 
-2. Utilisation d'une méthode pour faire réagir le template côté .xaml d'une façon spécifique, ici on veux juste afficher le contenu de notre variable dans l'élément cibler et mettre en place l'accessibiliter dans le cas ou la personne utilise un lecteur d'écran :
+2. Utilisation d'une méthode pour faire réagir le template côté .xaml d'une façon spécifique, ici on veux juste afficher le contenu de notre variable dans l'élément cibler et mettre en place l'accessibiliter dans le cas ou la personne utilise un lecteur d'écran :  
    => `SemanticScreenReader.Announce(CounterBtn.Text);`
 
 IMPORTANT, règle de base pour une méthode de gestion d'évent :
@@ -126,7 +126,9 @@ private void OnCounterClicked(object sender, EventArgs e)
 
 ## <a name="four">Class MauiProgram spécifique pour chaque plateforme (android, IOS, ect) et injection de dépendance. </a>
 
-Chaque plateforme native a un point de départ différent, qui crée et initialise l’application. Vous pouvez trouver le code ci-dessous à la racine du projet il se nomme **MauiProogram.cs**. On remarque que l'on lui donne le type de la classe de démarage de notre programme : `UserMauiApp<App>()` **App**, ensuite ont peut chainer des méthodes de configuration, par exemple dans le code ci dessous, une injection de dépendance pour des fichiers de type font.
+Chaque plateforme native a un point de départ différent, qui crée et initialise l’application.  
+Vous pouvez trouver le code ci-dessous à la racine du projet il se nomme **MauiProogram.cs**.  
+On remarque que l'on lui donne le type de la classe de démarage de notre programme : `UserMauiApp<App>()` **App**, ensuite ont peut chainer des méthodes de configuration, par exemple dans le code ci dessous, une injection de dépendance pour des fichiers de type font.
 
 ```c#
 namespace MyMauiApp;
@@ -213,9 +215,9 @@ Les fichiers AppShell.xaml et AppShell.xaml.cs qui spécifient la page initiale 
 </Shell>
 ```
 
-**Shell.FlyoutBehavior="Locked"**
-ou
-**Shell.FlyoutBehavior="Flyout"**
+**Shell.FlyoutBehavior="Locked"**  
+ou  
+**Shell.FlyoutBehavior="Flyout"**  
 Affiche une navigation sous forme de side barre à gauche.
 
 ```xml
@@ -238,9 +240,9 @@ Affiche une navigation sous forme de side barre à gauche.
 
 </Shell>
 
-**<TabBar>** + **<Tab>** permet d'avoir une nav barre hoizontale au top de l'app
+`<TabBar>` + `<Tab>` permet d'avoir une nav barre hoizontale au top de l'app
 
-Supprimer la balise _Shell.FlyoutBehavior=""_ si on utilise la balise \*\*<TabBar>
+Supprimer la balise _Shell.FlyoutBehavior=""_ si on utilise la balise `<TabBar>`  
 
 ### Bonus : Personnaliser l'apparence des onglets
 
@@ -249,8 +251,8 @@ Supprimer la balise _Shell.FlyoutBehavior=""_ si on utilise la balise \*\*<TabBa
     <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
 </Tab>
 ```
-
-- Ajout d'une icone pour personalisé la nav.
+  
+`Icon` ajoute une icone pour personalisé la nav.
 
 ---
 
@@ -270,7 +272,8 @@ public partial class Page1 : ContentPage
 }
 ```
 
-La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la description XAML de la page, charge les divers contrôles sur cette page et définit leurs propriétés. Ce qui nous permet après d'implémenter des logiques en ciblant les éléments souhaiter.
+La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la description XAML de la page, charge les divers contrôles sur cette page et définit leurs propriétés. Ce qui nous permet après d'implémenter des logiques en ciblant les éléments souhaiter.   
+
 **Important le code logique dois se trouver après cette méthode.**
 
 ---
@@ -286,8 +289,10 @@ La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la des
 </ContentPage>
 ```
 
-Le premier espace de nom : `xmlns="http://schemas.microsoft.com/dotnet/2021/maui"`,
-Si cet espace de noms n'est pas spécifier, on ne pourras pas utiliser de contrôles tels que `Button`, `Label`, `Entry` ou `StackLayout`
+Le premier espace de nom : `xmlns="http://schemas.microsoft.com/dotnet/2021/maui"`,  
+
+Si cet espace de noms n'est pas spécifier, on ne pourras pas utiliser de contrôles tels que `Button`, `Label`, `Entry` ou `StackLayout`  
+
 C'est donc l'espace de nom global pour utiliser les balises MAUI présente.
 
 ```xml
@@ -298,8 +303,12 @@ C'est donc l'espace de nom global pour utiliser les balises MAUI présente.
 </ContentPage>
 ```
 
-Le second espace de nom : `xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"`,
-Permet de manipuler les propriétés présente dans le code .xaml celui-ci est suivis de `x:Class="MauiXaml.Page1"` pour spécifier qui vas récupérer et gérer ses propriétés, ici je dit que la gestion de ma logique sera géré par ma classe **Page1** présente dans le namespace **MauiXaml** ce qui donne **MauiXaml.Page1**.
+Le second espace de nom : `xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"`,  
+
+Permet de manipuler les propriétés présente dans le code .xaml celui-ci est suivis de `x:Class="MauiXaml.Page1"`  
+
+pour spécifier qui vas récupérer et gérer ses propriétés, ici je dit que la gestion de ma logique sera géré par ma classe `Page1` présente dans le namespace `MauiXaml` ce qui donne `MauiXaml.Page1`.  
+
 On récupère le préfix `:x` de `xmlns:x` pour lui associé la classe `x:Class=""`
 
 ```xml
@@ -310,7 +319,7 @@ On récupère le préfix `:x` de `xmlns:x` pour lui associé la classe `x:Class=
 </ContentPage>
 ```
 
-Dans le code ci-dessus j'ajoute un namespace dans lequelle j'ai une gestion de la propriétés FontSize personnalisé, je lui donne un préfix `:mycode` pour une utilisation plus facile, ce qui me permet dans mon code .xaml de faire ceci :
+Dans le code ci-dessus j'ajoute un namespace dans lequelle j'ai une gestion de la propriétés **FontSize** personnalisé, je lui donne un préfix `:mycode` pour une utilisation plus facile, ce qui me permet dans mon code **.xaml** de faire ceci :
 
 ```xml
 <Label Text="Hello, World!"
@@ -325,7 +334,8 @@ Pour plus d'infos sur la façon de créer ce genre de classe, regarder la sectio
 
 Tout dabord avant de commencer de créer sa propre classe pour gérer des propriétés de façon global il faut savoir que MAUI nous met à la disposition un pannel pré-fabriquer pour nous aider à construire les vues .xaml facilement, on peut consulter le fichier dans le folder **Ressources** -> **Styles** -> **Styles.xaml**.
 
-Dans le template de base générer par Visual Studio, on peut voire l'utilisation de **Styles.xaml** dans le fichier **MainPage.xaml**.
+Dans le template de base générer par Visual Studio, on peut voire l'utilisation de **Styles.xaml** dans le fichier **MainPage.xaml**.  
+
 _Sont utilisation est un peu spécial car il s'agit d'un fichier static commun pour toute l'application_
 
 ```xml
@@ -364,8 +374,10 @@ Utilisation dans le code .xaml (ne pas oublier de déclarer le namespace en prem
 
 **Remarque**
 
-- Le préfixe _clr-namespace_ dans _xmlns:mycode="clr-namespace:MyMauiApp"_ est utilisé pour indiquer que l’espace de noms spécifié est un espace de noms du Common Language Runtime (CLR). En d’autres termes, il s’agit d’un espace de noms défini dans le **code .NET**, et non d’un **espace de noms XML standard**
-- En résumer quand ont crée plusieurs classe dans le même namespace il faut spécifier comment il peut retrouver ces classe et les différencier, `clr-namespace` aide à lier les éléments XAML aux classes définies dans votre projet, même si elles partagent le même espace de noms.
+- Le préfixe `clr-namespace_ dans _xmlns:mycode="clr-namespace:MyMauiApp"` est utilisé pour indiquer que l’espace de noms spécifié est un espace de noms du Common Language Runtime (CLR).
+  En d’autres termes, il s’agit d’un espace de noms défini dans le **code .NET**, et non d’un **espace de noms XML standard**.
+  
+- En résumer quand ont crée plusieurs classe dans le même namespace il faut spécifier comment il peut retrouver ces classe et les différencier, `clr-namespace` aide à lier les éléments **XAML** aux classes définies dans votre projet, même si elles partagent le même espace de noms.
 
 ```xml
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
