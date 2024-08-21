@@ -296,7 +296,7 @@ La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la des
   -  Définit l'espace de noms principal pour les contrôles MAUI comme Button, Label, etc.
 
 - `xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"` :
-  - Définit l'espace de noms pour les fonctionnalités spécifiques à XAML, comme x:Class, qui relie le fichier XAML à la classe code-behind.
+  - Définit l'espace de noms pour les fonctionnalités spécifiques à XAML, comme **x:Class** qui relie le fichier XAML à la classe code-behind ou **x:Name** attribue un nom unique à un élément dans le code XAML, ce qui permet de faire référence à cet élément directement depuis le code C#.
 
 - `xmlns:mycode="clr-namespace:MyMauiApp"` :
   - Définit un préfixe mycode pour référencer les classes dans le namespace MyMauiApp de votre code C#. Cela permet d'utiliser des éléments définis dans ce namespace directement dans votre fichier XAML. Le clr-namespace indique que le namespace est un namespace Common Language Runtime (CLR) de .NET.
