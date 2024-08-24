@@ -13,6 +13,7 @@
 - [Créer une extension de balisage.](#nine)
 - [Hiérarchie des balises + liste de celle les plus utiliser dans un fichier .xaml](#ten)
 - [Exemple d’affichage dynamique de données](#eleven)
+- [Utilisation du package 'CommunityToolkit.Mvvm'](#twelve)
 
 ---
 
@@ -475,3 +476,76 @@ Explication
 - **ViewModel** : Contient la logique pour charger les données depuis une API et les exposer via une collection observable.
 - **BindingContext** : Définit le contexte de liaison pour la page.
 - **ListView** : Affiche les éléments de la collection observable avec un modèle de données défini par **<DataTemplate>**
+
+---
+
+<br>
+
+## <a name=twelve>Package CommunityToolkit.Mvvm </a>
+Voici le lien pour installer le package : https://www.nuget.org/packages/CommunityToolkit.Mvvm  
+Voici la doc officiel par Microsoft : https://learn.microsoft.com/fr-fr/dotnet/communitytoolkit/mvvm/
+
+### Petite démo de la puissance du package : 
+
+L'utilisation de ce package simplifie le code il suffit d'utiliser par exemple l'attribut : 
+```c#
+[ObservableProperty]
+private string _titlePage = "Accueil";
+```
+
+Pour ne pas à avoir les étapes habituelle pour un binding de propriété d'un ViewModel à une View 
+
+```c#
+private string _title = "Accueil";
+public string Title
+{
+    get => _title;
+    set
+    {
+        if (_title != value)
+        {
+            _title = value;
+            OnPropertyChanged();
+        }
+    }
+}
+```
+
+Un autre exemple pour le biding d'event avec le package :
+```c#
+public partial class MonViewModel : ObservableObject
+{
+    [RelayCommand]
+    private async Task NavigateToDetails()
+    {
+        // Ici on décide de rediriger le user au clique
+        await Shell.Current.GoToAsync("//details");
+    }
+}
+```
+
+Sans le package :
+```c#
+public class MonViewModel : INotifyPropertyChanged
+{
+    private ICommand _navigateToDetailsCommand;
+    public ICommand NavigateToDetailsCommand => _navigateToDetailsCommand ??= new Command(async () => await NavigateToDetails());
+
+    private async Task NavigateToDetails()
+    {
+        // Ici on décide de rediriger le user au clique
+        await Shell.Current.GoToAsync("//details");
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}
+```
+
+
+---
+
+<br>
