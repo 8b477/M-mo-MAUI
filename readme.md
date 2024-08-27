@@ -14,6 +14,8 @@
 - [Hiérarchie des balises + liste de celle les plus utiliser dans un fichier .xaml](#ten)
 - [Exemple d’affichage dynamique de données](#eleven)
 - [Utilisation du package 'CommunityToolkit.Mvvm'](#twelve)
+- [Explication des balises de binding dans le xaml](#thirteen)
+- [Utilisation d'un Modèle](#fourteen)
 
 ---
 
@@ -23,7 +25,7 @@
 
 Ce fichier se trouve à la racine du projet **App.xaml**.  
 Tout ce qui est commun dans l'application ce trouve dans le fichier `Ressources`  
-Et la référence à ceci se trouve dans `App.xaml` dans la balise `<ResourceDictionary>`  
+Et la référence à ceci se trouve dans `App.xaml` dans la balise `<ResourceDictionary>`
 
 ```xml
 <?xml version = "1.0" encoding = "UTF-8" ?>
@@ -218,7 +220,7 @@ Les fichiers AppShell.xaml et AppShell.xaml.cs qui spécifient la page initiale 
 
 **Shell.FlyoutBehavior="Locked"**  
 ou  
-**Shell.FlyoutBehavior="Flyout"**  
+**Shell.FlyoutBehavior="Flyout"**
 
 Affiche une navigation sous forme de side barre à gauche.
 
@@ -244,7 +246,7 @@ Affiche une navigation sous forme de side barre à gauche.
 
 `<TabBar>` + `<Tab>` permet d'avoir une nav barre hoizontale au top de l'app
 
-Supprimer la balise _Shell.FlyoutBehavior=""_ si on utilise la balise `<TabBar>`  
+Supprimer la balise _Shell.FlyoutBehavior=""_ si on utilise la balise `<TabBar>`
 
 ### Bonus : Personnaliser l'apparence des onglets
 
@@ -253,7 +255,7 @@ Supprimer la balise _Shell.FlyoutBehavior=""_ si on utilise la balise `<TabBar>`
     <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
 </Tab>
 ```
-  
+
 `Icon` ajoute une icone pour personalisé la nav.
 
 ---
@@ -274,9 +276,9 @@ public partial class Page1 : ContentPage
 }
 ```
 
-La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la description XAML de la page, charge les divers contrôles sur cette page et définit leurs propriétés. Ce qui nous permet après d'implémenter des logiques en ciblant les éléments souhaiter.   
+La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la description XAML de la page, charge les divers contrôles sur cette page et définit leurs propriétés. Ce qui nous permet après d'implémenter des logiques en ciblant les éléments souhaiter.
 
-*Résumer ça bind la vue (MonFichier.xaml) avec la logique C# (MonFichier.xaml.cs)*  
+_Résumer ça bind la vue (MonFichier.xaml) avec la logique C# (MonFichier.xaml.cs)_
 
 **Important le code logique dois se trouver après cette méthode.**
 
@@ -284,7 +286,7 @@ La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la des
 
 <br>
 
-## <a name="eight">Comprendre les espace de nom dans les fichiers XAML </a>  
+## <a name="eight">Comprendre les espace de nom dans les fichiers XAML </a>
 
 ```xml
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -293,13 +295,17 @@ La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la des
              x:Class="MyMauiApp.Page1" >
 </ContentPage>
 ```
+
 - `xmlns="http://schemas.microsoft.com/dotnet/2021/maui"` :
-  -  Définit l'espace de noms principal pour les contrôles MAUI comme Button, Label, etc.
+
+  - Définit l'espace de noms principal pour les contrôles MAUI comme Button, Label, etc.
 
 - `xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"` :
+
   - Définit l'espace de noms pour les fonctionnalités spécifiques à XAML, comme **x:Class** qui relie le fichier XAML à la classe code-behind ou **x:Name** attribue un nom unique à un élément dans le code XAML, ce qui permet de faire référence à cet élément directement depuis le code C#.
 
 - `xmlns:mycode="clr-namespace:MyMauiApp"` :
+
   - Définit un préfixe mycode pour référencer les classes dans le namespace MyMauiApp de votre code C#. Cela permet d'utiliser des éléments définis dans ce namespace directement dans votre fichier XAML. Le clr-namespace indique que le namespace est un namespace Common Language Runtime (CLR) de .NET.
 
 - `x:Class="MyMauiApp.Page1"` :
@@ -311,7 +317,7 @@ La méthode **InitializeComponent()** dans le constructeur de _page1_ lit la des
 
 Tout dabord avant de commencer de créer sa propre classe pour gérer des propriétés de façon global il faut savoir que MAUI nous met à la disposition un pannel pré-fabriquer pour nous aider à construire les vues .xaml facilement, on peut consulter le fichier dans le folder **Ressources** -> **Styles** -> **Styles.xaml**.
 
-Dans le template de base générer par Visual Studio, on peut voire l'utilisation de **Styles.xaml** dans le fichier **MainPage.xaml**.  
+Dans le template de base générer par Visual Studio, on peut voire l'utilisation de **Styles.xaml** dans le fichier **MainPage.xaml**.
 
 _L'utilisation est un peu spécial car il s'agit d'un fichier static commun pour toute l'application_
 
@@ -348,6 +354,7 @@ public class GlobalFontSizeExtension : IMarkupExtension
 ```
 
 Utilisation dans le code .xaml (ne pas oublier de déclarer le namespace en premier)
+
 ```xml
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -482,18 +489,20 @@ Explication
 <br>
 
 ## <a name=twelve>Package CommunityToolkit.Mvvm </a>
+
 Voici le lien pour installer le package : https://www.nuget.org/packages/CommunityToolkit.Mvvm  
 Voici la doc officiel par Microsoft : https://learn.microsoft.com/fr-fr/dotnet/communitytoolkit/mvvm/
 
-### Petite démo de la puissance du package : 
+### Petite démo de la puissance du package :
 
-L'utilisation de ce package simplifie le code il suffit d'utiliser par exemple l'attribut : 
+L'utilisation de ce package simplifie le code il suffit d'utiliser par exemple l'attribut :
+
 ```c#
 [ObservableProperty]
 private string _titlePage = "Accueil";
 ```
 
-Pour ne pas à avoir les étapes habituelle pour un binding de propriété d'un ViewModel à une View 
+Pour ne pas à avoir les étapes habituelle pour un binding de propriété d'un ViewModel à une View
 
 ```c#
 private string _title = "Accueil";
@@ -511,10 +520,34 @@ public string Title
 }
 ```
 
-Un autre exemple pour le biding d'event avec le package :
+Utilisation dans la view :
+
+```xml
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIAppTest.MaPageView">
+
+<ContentPage.BindingContext>
+    <vm:MaPageViewModel />
+</ContentPage.BindingContext>
+
+    <Label
+        Text="{Binding Title}"
+    />
+
+</ContentPage>
+```
+
+**Remarque** : dans le template xaml on utilise la propriétés public '**T**itle', il faut garder à l'esprit que `[ObservableProperty]` fait exactement ce qui est expliquer dans la partie 'deux' sans le package `CommunityToolkit.Mvvm`.
+
+Un autre exemple pour les events avec le package :
+
 ```c#
 public partial class MonViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private string _titlePage = "Accueil";
+
     [RelayCommand]
     private async Task NavigateToDetails()
     {
@@ -525,6 +558,7 @@ public partial class MonViewModel : ObservableObject
 ```
 
 Sans le package :
+
 ```c#
 public class MonViewModel : INotifyPropertyChanged
 {
@@ -545,7 +579,159 @@ public class MonViewModel : INotifyPropertyChanged
 }
 ```
 
+Utilisation dans la View :
+
+```xml
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIAppTest.MaPageView">
+
+<ContentPage.BindingContext>
+    <vm:MaPageViewModel />
+</ContentPage.BindingContext>
+
+    <Button
+        Text="{Binding Title}"
+        Command="{Binding NavigateToDetailsCommand"}
+    />
+
+</ContentPage>
+```
+
+**Remarque** : ici pour utiliser notre méthode ont utilise son nom + **Command**
 
 ---
 
 <br>
+
+##<a name="thirteen">Explication des balises de binding dans le xaml</a>
+
+1. BindingContext
+
+```xml
+<ContentPage.BindingContext>
+    <vm:ConnectionPageViewModel />
+</ContentPage.BindingContext>
+```
+
+- But : Cette section établit le contexte de liaison (BindingContext) pour la page. Elle permet de lier les propriétés de l'interface utilisateur aux propriétés et commandes du ViewModel.
+- Utilisation : Ici, la page utilise le ConnectionPageViewModel comme contexte de données. Cela permet aux contrôles sur la page d'accéder aux propriétés et commandes définies dans ce ViewModel.
+
+2. Resources
+
+```xml
+<ContentPage.Resources>
+    <ResourceDictionary>
+        <Color x:Key="PrimaryColor">#007ACC</Color>
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+        </Style>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </ResourceDictionary>
+</ContentPage.Resources>
+```
+
+- But : La section Resources contient des ressources partagées, comme des couleurs, des styles ou des convertisseurs, qui peuvent être réutilisés dans la page.
+- Utilisation :
+  - Color (PrimaryColor) : Définit une couleur réutilisable pour d'autres éléments de l'interface.
+  - Style (PrimaryButtonStyle) : Crée un style réutilisable pour les boutons, appliquant la couleur définie par PrimaryColor.
+  - Convertisseur (InverseBoolConverter) : Déclare un convertisseur de valeur personnalisé qui peut être utilisé dans les liaisons pour inverser une valeur booléenne.
+
+### Résumé
+
+`<ContentPage.BindingContext>` : Associe la page à un ViewModel pour les liaisons de données.  
+`<ContentPage.Resources>` : Déclare des ressources réutilisables (couleurs, styles, convertisseurs) dans un dictionnaire de ressources.
+
+---
+
+<br>
+
+##<a name="fourteen">Utilisation d'un Modèle</a>
+
+1. Utilisation d'un modèle pour récupérer des données :
+
+```cs
+// Création d'un objet LogUser
+namespace MAUIAppTest.Models
+{
+    public record LogUser(string Email, string Password);
+}
+```
+
+```cs
+// Mise en place de la logique de récupération des données
+// + Vérif des datas
+// + Construction de l'objet 'Model' LogUser
+// + Envoye des datas
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
+using MAUIAppTest.Models;
+
+namespace MAUIAppTest.ViewModels
+{
+    public partial class ConnectionPageViewModel : ObservableObject
+    {
+        [ObservableProperty]
+        private string _email = string.Empty;
+
+        [ObservableProperty]
+        private string _password = string.Empty;
+
+
+        [RelayCommand]
+        private async Task SubmitDataFromConnectionForm()
+        {
+            if (string.IsNullOrEmpty(_email))
+                await Application.Current.MainPage.DisplayAlert("Erreur", "le champ email doit être compléter", "OK");
+
+            if (string.IsNullOrEmpty(_password))
+                await Application.Current.MainPage.DisplayAlert("Erreur", "le champ password doit être compléter", "OK");
+
+            LogUser logUser = new(Email, Password);
+        }
+    }
+}
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MAUIAppTest.ViewModels"
+             x:Class="MAUIAppTest.Views.ConnectionPageView"
+             Title="Identifie toi">
+
+    <ContentPage.BindingContext>
+        <vm:ConnectionPageViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Spacing="30" Padding="10">
+
+        <Label Text="Entre ton mail :" />
+
+        <Entry
+            Text="{Binding Email}"
+            Placeholder="example@mail.be"
+            ClearButtonVisibility="WhileEditing"
+            Keyboard="Email"
+            HorizontalOptions="FillAndExpand" />
+
+        <Label Text="Entre ton pass :" />
+
+        <Entry
+            Text="{Binding Password}"
+            IsPassword="{Binding IsPasswordVisible}"
+            Placeholder="Enter your password"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="Center" />
+
+        <Button
+            Text="C'est parti !"
+            Command="{Binding SubmitDataFromConnectionFormCommand}" />
+
+    </VerticalStackLayout>
+
+</ContentPage>
+
+```
