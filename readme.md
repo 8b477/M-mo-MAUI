@@ -736,34 +736,36 @@ namespace MAUIAppTest.ViewModels
 </ContentPage>
 
 ```
+
 <br>
 <br>
  
----    
+---
 
 ## <a name="fifteen">Début du tuto '_création d'une app MAUI_' (avec le package CommunityToolkit.Mvvm)</a>
-Projet de base : 
 
-![one](https://github.com/8b477/Memo-MAUI/blob/main/Screen/0_projet_base.png)   
+Projet de base :
+
+![one](https://github.com/8b477/Memo-MAUI/blob/main/Screen/0_projet_base.png)
 
 1. Construire notre architecture MVVM
-
 
 ### Avant de commencer à coder nous allons créer 3 folders :
 
     - Model
     - ViewModel
     - View
-Projet avec architecture MV-V-M :  
 
-![two](https://github.com/8b477/Memo-MAUI/blob/main/Screen/1_ajout_folders_MVVM.png)   
+Projet avec architecture MV-V-M :
+
+![two](https://github.com/8b477/Memo-MAUI/blob/main/Screen/1_ajout_folders_MVVM.png)
 
 1.1 Maintenant que nous avons notre architecture en place, déplaçons les fichiers déjà présent dans l'app de base dans leur folder :
 
 - `MainPage.xaml` avec son code behind `MainPage.xaml.cs` dans le folder `View`.
   - Vérifier si les `namespace` sont toujours correct normalement votre IDE vous propose de les changer automatiquement.
 
-![three](https://github.com/8b477/Memo-MAUI/blob/main/Screen/2_placer_dans_view.png)   
+![three](https://github.com/8b477/Memo-MAUI/blob/main/Screen/2_placer_dans_view.png)
 
 Voici à quoi doit ressembler votre fichier :
 
@@ -855,13 +857,13 @@ namespace Tuto_MAUI.View   <----------------------------
 </Shell>
 ```
 
-Lancer l'app pour vérifier que celle fonctionne toujours correctement.  
+Lancer l'app pour vérifier que celle fonctionne toujours correctement.
 
----  
+---
 
 1.2 Création d'une simple classe _cs_ => `MainPageViewModel.cs`.
 
-1.3 Déplacer la logique du code du fichier behind de la View dans notre nouvelle classe :  
+1.3 Déplacer la logique du code du fichier behind de la View dans notre nouvelle classe :
 
 ![three](https://github.com/8b477/Memo-MAUI/blob/main/Screen/3_deplacer_dans_viewmodel.png)
 
@@ -906,12 +908,12 @@ A ce stade vous constatez que des erreurs sont apparu dans notre classe **MainPa
 - CounterBtn.Text = $"Clicked {count} time";
 - CounterBtn.Text = $"Clicked {count} times";
 - SemanticScreenReader.Announce(CounterBtn.Text);  
-  C'est tout à fait normal puisque avant ont récupèrais le **Button** dans le code behind et les deux fichiers était lié via cette ligne dans le xaml :  
+  C'est tout à fait normal puisque avant ont récupèrais le **Button** dans le code behind et les deux fichiers était lié via cette ligne dans le xaml :
 - x:Class="Tuto_MAUI.View.MainPage"  
   Et l'on pouvais changer le texte du **Button** via un évenement sur le **Button**
-  
- ### Voici comment résoudre se problème :
-  
+
+### Voici comment résoudre se problème :
+
 - En premier retournons du côté **View** dans notre fichier **MainPage.xaml** et ajoutons ceci :
 
 ```xml
@@ -1039,14 +1041,14 @@ Maitenant retournon dans notre View pour lui ajouter notre variable **ButtonText
 </ContentPage>
 ```
 
----  
-
+---
 
 Tester !  
 Si vous avez bien suivis les étapes, l'application à exactement le même comportement qu'au tout début.  
 Alors pourquoi avoir fait tout ça si c'est pour avoir le même résulat ??  
 Tout simplement pour une meilleur séparation des **Responsabilité**, en effet maintenant notre View ne fait que afficher des données 'bêtement',  
-elle ne connais rien à la logique de l'évènement ni au contenu des variables qu'elle affiche.  
+elle ne connais rien à la logique de l'évènement ni au contenu des variables qu'elle affiche.
+
 ### En résumer :
 
 - La **View** comme sont nom l'indique est une vue, c'est ici que tu met en place le visuel des éléments de ton écran rien de plus.
@@ -1201,8 +1203,7 @@ namespace Tuto_MAUI
 
 ```
 
----  
-
+---
 
 On test ?
 Parfait ! on à mis en place une navigation simple et efficace, si vous êtes observateur vous avez vu qu'il y a une flèche qui nous permet de revenir sur la page précédente, trop facile MAUI 😎
@@ -1217,4 +1218,231 @@ On est maintenant capable de faire
 
 ## Pour le moment nous avons utiliser le folder **View** et le folder **ViewModel**, il est temp de voire la partie **Model**.
 
-Dans cette partie du tuto nous allons voire comment appeler et récupérer des données depuis une API
+### Dans cette partie du tuto nous allons voire comment appeler et récupérer des données depuis une API
+
+En premier nous allons nous placer dans notre folder **Model** et créer deux folders supplémentaires :
+
+- PokemonModel
+- Services
+
+**IMAGE-6**
+
+Dans **PokemonModel** on ajoute ce code (simple classe .cs) :
+
+```cs
+namespace Tuto_MAUI.Model.PokemonModel
+{
+    public class PikachuModel
+    {
+        public string Name { get; set; }
+        public string Picture { get; set;}
+        public string Type { get; set; }
+    }
+}
+```
+
+C'est une représentation des données que l'on souhaite afficher dans notre **View**.
+
+Ensuite plaçons nous dans le folder **Services** et ajoutons la logique pour le call API, nous allons pour la démo utiliser l'API de [https://pokeapi.co] :
+
+```cs
+using System.Net.Http.Json;
+using System.Text.Json;
+
+using Tuto_MAUI.Model.PokemonModel;
+
+namespace Tuto_MAUI.Model.Services
+{
+    public class PokemonService
+    {
+        private readonly HttpClient _httpClient;
+        private const string BaseUrl = "https://pokeapi.co/api/v2/";
+
+        public PokemonService()
+        {
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(BaseUrl)
+            };
+        }
+
+        public async Task<PikachuModel?> GetPikachuAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<JsonElement>("pokemon/pikachu");
+
+                var name = response.GetProperty("name").GetString();
+                var imageUrl = response.GetProperty("sprites").GetProperty("front_default").GetString();
+                var type = response.GetProperty("types")[0].GetProperty("type").GetProperty("name").GetString();
+
+                return new PikachuModel
+                {
+                    Name = name,
+                    Picture = imageUrl,
+                    Type = type
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching Pikachu data: {ex.Message}");
+                return null;
+            }
+        }
+    }
+}
+```
+
+Première étape fini !  
+Direction dans notre folder ViewModel et créons la logique pour la **NewPage1** que nous avons créer plus tôt dans ce tuto.
+Comme pour la **MainPage.xaml** nous allons donc créer une classe .cs et la nommé **NewPage1ViewModel.cs**.
+Dans cette classe notre logique pour utiliser notre service implémenter juste en haut, voici le code :
+
+```cs
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
+using Tuto_MAUI.Model.PokemonModel;
+using Tuto_MAUI.Model.Services;
+
+namespace Tuto_MAUI.ViewModel
+{
+    internal partial class NewPage1ViewModel : ObservableObject
+    {
+        private readonly PokemonService _pokeService;
+
+        public NewPage1ViewModel()
+        {
+            _pokeService = new PokemonService();
+        }
+
+        [ObservableProperty]
+        private PikachuModel _pikachu;
+
+        [ObservableProperty]
+        private bool _isLoading;
+
+        [RelayCommand]
+        private async Task LoadPikachuData()
+        {
+            try
+            {
+                IsLoading = true;
+                Pikachu = await _pokeService.GetPikachuAsync();
+            }
+            catch (Exception ex)
+            {
+                // Gérer l'erreur (par exemple, afficher un message à l'utilisateur)
+                await Shell.Current.DisplayAlert("Error", $"Failed to load Pikachu data: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+    }
+}
+```
+
+Avant d'adapter notre **View**, nous allons créer un folder **Converter** celui-ci nous seras très pratique, vous allez tout de suite comprendre pourquoi.
+
+Dans notre cas quand on vas vouloir afficher notre **PikachuModel** il se pourrait que celui-ci soit **null** mais dans le template **XAML** nous ne pouvons pas créer d'affichage conditionnelle comme dans d'autre langage du style : `IsVisible = data != null ? 'True' : 'False'`.  
+Donc dans notre cas nous devons passer par une méthode alternative une logique déporter qui feras le même job que l'exemple de la ternaire, voici la classe que l'on vas ajouter dans le folder **Converteur** :
+
+```cs
+using System.Globalization;
+
+namespace Tuto_MAUI.Converter
+{
+    public class NotNullToBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value != null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+```
+
+**Remarque :**  
+Ici pour pouvoir utiliser cette méthode dans notre template **XAML** nous avons besoin de faire hériter notre méthode `: IValueConverter`.  
+Ensuite vous constatez que la seconde n'est pas implémenter, tout simplement car dans notre cas d'utilisation nous n'en avons pas besoin mais l'interface `: IValueConverter` exige d'avoir les deux méthode une dans un sens et une dans l'autre sens.
+
+Et enfin modifions notre code **XAML** dans la **View** comme ceci (copié collé le code et tester l'app) :
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Tuto_MAUI.ViewModel"
+             xmlns:convert="clr-namespace:Tuto_MAUI.Converter"
+             x:Class="Tuto_MAUI.View.NewPage1"
+             Title="NewPage1">
+
+    <ContentPage.BindingContext>
+        <vm:NewPage1ViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <convert:NotNullToBoolConverter x:Key="NotNullToBoolConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+        <Grid RowDefinitions="Auto,*" Padding="20">
+            <Button Text="Charger Pikachu"
+                Command="{Binding LoadPikachuDataCommand}"
+                BackgroundColor="#FFCB05"
+                TextColor="#2A75BB"
+                CornerRadius="20"
+                HeightRequest="50"
+                Margin="0,0,0,20"/>
+
+            <ActivityIndicator Grid.Row="1"
+                           IsRunning="{Binding IsLoading}"
+                           IsVisible="{Binding IsLoading}"
+                           Color="#2A75BB"
+                           HeightRequest="50"
+                           WidthRequest="50"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+            <Frame Grid.Row="1"
+               IsVisible="{Binding Pikachu, Converter={StaticResource NotNullToBoolConverter}}"
+               BackgroundColor="White"
+               CornerRadius="20"
+               HasShadow="True"
+               Padding="20">
+                <StackLayout Spacing="15">
+                    <Image Source="{Binding Pikachu.Picture}"
+                       HeightRequest="200"
+                       WidthRequest="200"
+                       HorizontalOptions="Center"/>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Label Text="Nom : "
+                           FontAttributes="Bold"
+                           TextColor="#2A75BB"/>
+                        <Label Text="{Binding Pikachu.Name}"
+                           TextColor="#2A75BB"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Label Text="Type : "
+                           FontAttributes="Bold"
+                           TextColor="#FFCB05"/>
+                        <Label Text="{Binding Pikachu.Type}"
+                           TextColor="#FFCB05"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+        </Grid>
+
+</ContentPage>
+```
