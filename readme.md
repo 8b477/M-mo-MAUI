@@ -1129,7 +1129,7 @@ namespace Tuto_MAUI.ViewModel
 }
 ```
 
-Vous l'avez surement devinez mais maintenant que notre logique de navigation est en place, il nous faut un bouton visuel pour déclencher la méthode.
+Vous l'avez surement devinez mais maintenant que notre logique de navigation est en place, il nous faut un bouton visuel pour déclencher la méthode.  
 Direction notre view **MainPage.xaml**
 
 ```xml
