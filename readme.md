@@ -16,6 +16,7 @@
 - [Utilisation du package 'CommunityToolkit.Mvvm'](#twelve)
 - [Explication des balises de binding dans le xaml](#thirteen)
 - [Utilisation d'un Modèle](#fourteen)
+- [Tuto MAUI, créer une App facilement c'est ici !](#fifteen)
 
 ---
 
@@ -735,3 +736,468 @@ namespace MAUIAppTest.ViewModels
 </ContentPage>
 
 ```
+
+##<a name="fifteen"> Début du tuto '_création d'une app MAUI_' (avec le package CommunityToolkit.Mvvm)</a>
+
+1. Construire notre architecture MVVM
+
+0_projet_base.png
+
+### Avant de commencer à coder nous allons créer 3 folders :
+
+    - Model
+    - ViewModel
+    - View
+
+![one](/Screen/0_projet_base.png)
+
+1.1 Maintenant que nous avons notre architecture en place, déplaçons les fichiers déjà présent dans l'app de base dans leur folder :
+
+- `MainPage.xaml` avec son code behind `MainPage.xaml.cs` dans le folder `View`.
+  - Vérifier si les `namespace` sont toujours correct normalement votre IDE vous propose de les changer automatiquement.
+
+![two](/Screen/1_ajout_folders_MVVM.png)
+
+Voici à quoi doit ressembler votre fichier :
+
+```cs
+namespace Tuto_MAUI.View   <----------------------------
+{
+    public partial class MainPage : ContentPage
+    {
+        int count = 0;
+
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+
+        private void OnCounterClicked(object sender, EventArgs e)
+        {
+            count++;
+
+            if (count == 1)
+                CounterBtn.Text = $"Clicked {count} time";
+            else
+                CounterBtn.Text = $"Clicked {count} times";
+
+            SemanticScreenReader.Announce(CounterBtn.Text);
+        }
+    }
+}
+```
+
+**Ne pas oublier de mettre à jour le code XAML**
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tuto_MAUI.View.MainPage">  <----------------------------
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" />
+
+            <Label
+                Text="Hello, World!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Welcome to &#10;.NET Multi-platform App UI"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+
+            <Button
+                x:Name="CounterBtn"
+                Text="Click me"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+```
+
+**Idem pour le code déjà présent dans le fichier `AppShell.xaml`**
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Tuto_MAUI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Tuto_MAUI.View"  <----------------------------
+    Shell.FlyoutBehavior="Disabled"
+    Title="Tuto_MAUI">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+</Shell>
+```
+
+Lancer l'app pour vérifier que celle fonctionne toujours correctement.
+
+1.2 Crétion d'une simple classe _cs_ => `MainPageViewModel.cs`.
+
+![three](/Screen/3_deplacer_dans_viewmodel.png)
+
+1.3 Déplacer la logique du code du fichier behind de la View dans notre nouvelle classe :
+
+```cs
+namespace Tuto_MAUI.ViewModel
+{
+    internal class MainPageViewModel
+    {
+        int count = 0;
+        private void OnCounterClicked(object sender, EventArgs e)
+        {
+            count++;
+
+            if (count == 1)
+                CounterBtn.Text = $"Clicked {count} time";
+            else
+                CounterBtn.Text = $"Clicked {count} times";
+
+            SemanticScreenReader.Announce(CounterBtn.Text);
+        }
+    }
+}
+```
+
+Le fichier du code behind devrais ressembler à ceci :
+
+```cs
+namespace Tuto_MAUI.View
+{
+    public partial class MainPage : ContentPage
+    {
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+    }
+}
+```
+
+A ce stade vous constatez que des erreurs sont apparu dans notre classe **MainPageViewModel** au niveau des lignes de code suivante :
+
+- CounterBtn.Text = $"Clicked {count} time";
+- CounterBtn.Text = $"Clicked {count} times";
+- SemanticScreenReader.Announce(CounterBtn.Text);
+  C'est tout à fait normal puisque avant ont récupèrais le **Button** dans le code behind et les deux fichiers était lié via cette ligne dans le xaml :
+- x:Class="Tuto_MAUI.View.MainPage"
+  Et l'on pouvais changer le texte du **Button** via un évenement sur le **Button**
+  Voici comment résoudre se problème :
+- En premier retournons du côté **View** dans notre fichier **MainPage.xaml** et ajoutons ceci :
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tuto_MAUI.View.MainPage"
+             xmlns:vm="clr-namespace:Tuto_MAUI.ViewModel" <------------------- on fait connaitre au template xaml le folder ViewModel
+             >
+
+    <ContentPage.BindingContext>  <------------------- on lui bind un contexte
+        <vm:MainPageViewModel/>   <------------------- on lui précise le fichier du contexte
+    </ContentPage.BindingContext> <-------------------
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" />
+
+            <Label
+                Text="Hello, World!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Welcome to &#10;.NET Multi-platform App UI"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+
+            <Button
+                x:Name="CounterBtn"
+                Text="Click me"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+```
+
+Cool mais ça n'a pas résolu notre problème de base, le fichier **MainPageViewModel** indique toujours les même erreurs :(
+Modfions donc notre fichier **MainPageViewModel** comme ceci :
+
+```cs
+using CommunityToolkit.Mvvm.ComponentModel; // using du package
+using CommunityToolkit.Mvvm.Input;
+
+namespace Tuto_MAUI.ViewModel
+{
+    internal partial class MainPageViewModel : ObservableObject // Ajout de mot clé 'partial' + ':ObservableObject'
+    {
+        [ObservableProperty] // Ajout d'un attribut pour obtenir une variable Observable dans notre View
+        private int _count = 0;
+
+        [ObservableProperty]
+        private string _buttonText = "Click me";
+
+        [RelayCommand]  // Ajout d'un attribut pour obtenir un evenement utilisable dans notre View
+        private void OnCounterClicked()
+        {
+            Count++;
+
+            if (Count == 1)
+                ButtonText = $"Clicked {Count} time";
+            else
+                ButtonText = $"Clicked {Count} times";
+
+            SemanticScreenReader.Announce(ButtonText);
+        }
+    }
+}
+```
+
+Bonne nouvelle plus d'erreurs dans notre ViewModel =D
+Maitenant retournon dans notre View pour lui ajouter notre varibale **ButtonText** et son évènement **OnCounterClicked**
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tuto_MAUI.View.MainPage"
+             xmlns:vm="clr-namespace:Tuto_MAUI.ViewModel"
+             >
+
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" />
+
+            <Label
+                Text="Hello, World!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Welcome to &#10;.NET Multi-platform App UI"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+
+            <Button
+                Text="{Binding ButtonText}" <------------------------------------------------------ ici notre variable
+                SemanticProperties.Hint="Counts the number of times you click"
+                Command="{Binding CounterClickedCommand}" <---------------------------------------- ici notre évent
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+```
+
+Tester !
+Si vous avez bien suivis les étapes, l'application à exactement le même comportement qu'au tout début.
+Alors pourquoi avoir fait tout ça si c'est pour avoir le même résulat ??
+Tout simplement pour une meilleur séparation des **Responsabilité**, en effet maintenant notre View ne fait que afficher des données 'bêtement',
+elle ne connais rien à la logique de l'évènement ni au contenu des variables qu'elle affiche.
+En résumer :
+
+- La **View** comme sont nom l'indique est une vue, c'est ici que tu met en place le visuel des éléments de ton écran rien de plus.
+- La **ViewModel** elle s'est le cerveau, elle vas s'occuper d'implémenter la logique spécifique de chaque éléments, que se soit des variable ou des évents.
+
+### On continue ? =D
+
+2. Ajoutons une nouvelle page pour comprendre la logique de navigation.  
+   Plusieurs solutions s'offre à nous, je vous en présente une mais n'hésitez à découvrire les autres par vous même.
+
+- Création de ma nouvelle **View** dans le dossier **View**, clique droit sur le folder **View** et choisir _Nouvel élément_ voire image ci-dessous.
+
+![four](/Screen/4_ajout_nouvelle_view.png)
+
+-
+
+![five](/Screen/5_ajout_nouvelle_view.png)
+
+Nous avons donc une nouvelle page j'ai rajouter un petit **Label** et fait une séparation visuel entre les deux éléments voici le code :
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tuto_MAUI.View.NewPage1"
+             Title="NewPage1">
+    <VerticalStackLayout>
+
+        <Label
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+
+        <Label
+            Text="Cool une nouvelle page !"
+            FontSize="Large" />
+
+    </VerticalStackLayout>
+</ContentPage>
+```
+
+C'est bien beau tout ça on a une nouvelle page mais comment y accède ? ^^
+Direction le fichier **MainPageViewModel.cs** et ajoutons ceci :
+
+```cs
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
+using Tuto_MAUI.View;
+
+namespace Tuto_MAUI.ViewModel
+{
+    internal partial class MainPageViewModel : ObservableObject
+    {
+        [ObservableProperty]
+        private int _count = 0;
+
+        [ObservableProperty]
+        private string _buttonText = "Click me";
+
+        [RelayCommand]
+        private void OnCounterClicked()
+        {
+            Count++;
+
+            if (Count == 1)
+                ButtonText = $"Clicked {Count} time";
+            else
+                ButtonText = $"Clicked {Count} times";
+
+            SemanticScreenReader.Announce(ButtonText);
+        }
+
+        [RelayCommand] // <-------------------------------- Notre évent pour la navigation vers notre nouvelle page
+        private async Task NavigateToMyNewPage()
+        {
+            await Shell.Current.GoToAsync(nameof(NewPage1));
+        }
+    }
+}
+```
+
+Vous l'avez surement devinez mais maintenant que notre logique de navigation est en place, il nous faut un bouton visuel pour déclencher la méthode.
+Direction notre view **MainPage.xaml**
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tuto_MAUI.View.MainPage"
+             xmlns:vm="clr-namespace:Tuto_MAUI.ViewModel"
+             >
+
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel/>
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" />
+
+            <Label
+                Text="Hello, World!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Welcome to &#10;.NET Multi-platform App UI"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+
+            <Button
+                Text="{Binding ButtonText}"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Command="{Binding CounterClickedCommand}"
+                HorizontalOptions="Fill" />
+
+            <Button <----------------------------------------------------------- Ajout du nouveau Bouton
+                Text="Direction ma nouvelle page"
+                Command="{Binding NavigateToMyNewPageCommand}" <---------------- Ajout de mon nouvelle évent
+                HorizontalOptions="Fill" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+```
+
+Il nous faut aussi référencer cette nouvelle page dans notre application, mais ou le faire ? dans le fichier **AppShell.xaml.cs**, ajouter ceci :
+
+```cs
+using Tuto_MAUI.View;
+
+namespace Tuto_MAUI
+{
+    public partial class AppShell : Shell
+    {
+        public AppShell()
+        {
+            InitializeComponent();
+            Routing.RegisterRoute(nameof(NewPage1), typeof(NewPage1)); // <-------- Ajout de notre nouvelle page
+        }
+    }
+}
+
+```
+
+On test ?
+Parfait ! on à mis en place une navigation simple et efficace, si vous êtes observateur vous avez vu qu'il y a une flèche qui nous permet de revenir sur la page précédente, trop facile MAUI =D
+
+### Petit récap :
+
+On est maintenant capable de faire
+
+- du **Binding** c'est à dire d'afficher des variables dynamiquement dans notre **View** depuis un **ViewModel**.
+- d'ajouter des évent.
+- de créer une navigation.
+
+## Pour le moment nous avons utiliser le folder **View** et le folder **ViewModel**, il est temp de voire la partie **Model**.
+
+Dans cette partie du tuto nous allons voire comment appeler et récupérer des données depuis une API
