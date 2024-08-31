@@ -1090,7 +1090,7 @@ Nous avons donc une nouvelle page j'ai rajouter un petit **Label** et fait une s
 </ContentPage>
 ```
 
-C'est bien beau tout ça on a une nouvelle page mais comment y accède ? ^^
+C'est bien beau tout ça on a une nouvelle page mais comment y accède ? ^^  
 Direction le fichier **MainPageViewModel.cs** et ajoutons ceci :
 
 ```cs
@@ -1214,8 +1214,12 @@ On est maintenant capable de faire
 
 - du **Binding** c'est à dire d'afficher des variables dynamiquement dans notre **View** depuis un **ViewModel**.
 - d'ajouter des évent.
-- de créer une navigation.
+- de créer une navigation.  
 
+
+---
+
+  
 ## Pour le moment nous avons utiliser le folder **View** et le folder **ViewModel**, il est temp de voire la partie **Model**.
 
 ### Dans cette partie du tuto nous allons voire comment appeler et récupérer des données depuis une API
@@ -1224,8 +1228,9 @@ En premier nous allons nous placer dans notre folder **Model** et créer deux fo
 
 - PokemonModel
 - Services
+  
+![six](https://github.com/8b477/Memo-MAUI/blob/main/Screen/6_ajout_poke_service.png)  
 
-**IMAGE-6**
 
 Dans **PokemonModel** on ajoute ce code (simple classe .cs) :
 
@@ -1243,7 +1248,7 @@ namespace Tuto_MAUI.Model.PokemonModel
 
 C'est une représentation des données que l'on souhaite afficher dans notre **View**.
 
-Ensuite plaçons nous dans le folder **Services** et ajoutons la logique pour le call API, nous allons pour la démo utiliser l'API de [https://pokeapi.co] :
+Ensuite plaçons nous dans le folder **Services** et ajoutons la logique pour le call API, nous allons pour la démo utiliser l'API de https://pokeapi.co :
 
 ```cs
 using System.Net.Http.Json;
@@ -1446,3 +1451,20 @@ Et enfin modifions notre code **XAML** dans la **View** comme ceci (copié coll�
 
 </ContentPage>
 ```
+## Conclusion c'est quoi et quoi mettre dans le dossier **Model** ?? 
+- On vas mettre tout ce qui représente nos données comme dans notre tuto, les données que nous voulons pour représenter Pikachu.
+- On vas y placer notre logique de call API.
+
+
+## Méga résumer 🗺️  
+Si vous avez suivis le tuto jusqu'au bout vous êtes capable de :
+- Utiliser l'architecture MVVM.
+- Utiliser le Binding.
+- Gérer les évènements de la vue.
+- Mettre en place une navigation.
+- Créer un call API.
+- Récupérer les datas.
+- Afficher des datas dynamiquement.
+- Créer un affichage conditionnelle.
+
+### Je pense que ce tuto donne les bases mais ne couvre bien sûr pas tous les cas spécifique que votre app mobile pourrait rencontrer mais j’espère que cela vous auras aidé à peut-être éclaircir des points obscurs ^^.
