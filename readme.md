@@ -605,7 +605,7 @@ Utilisation dans la View :
 
 <br>
 
-##<a name="thirteen">Explication des balises de binding dans le xaml</a>
+## <a name="thirteen">Explication des balises de binding dans le xaml</a>
 
 1. BindingContext
 
@@ -736,27 +736,34 @@ namespace MAUIAppTest.ViewModels
 </ContentPage>
 
 ```
+<br>
+<br>
+ 
+---    
 
-##<a name="fifteen"> Début du tuto '_création d'une app MAUI_' (avec le package CommunityToolkit.Mvvm)</a>
+## <a name="fifteen">Début du tuto '_création d'une app MAUI_' (avec le package CommunityToolkit.Mvvm)</a>
+Projet de base : 
+
+![one](https://github.com/8b477/Memo-MAUI/blob/main/Screen/0_projet_base.png)   
 
 1. Construire notre architecture MVVM
 
-0_projet_base.png
 
 ### Avant de commencer à coder nous allons créer 3 folders :
 
     - Model
     - ViewModel
     - View
+Projet avec architecture MV-V-M :  
 
-![one](/Screen/0_projet_base.png)
+![two](https://github.com/8b477/Memo-MAUI/blob/main/Screen/1_ajout_folders_MVVM.png)   
 
 1.1 Maintenant que nous avons notre architecture en place, déplaçons les fichiers déjà présent dans l'app de base dans leur folder :
 
 - `MainPage.xaml` avec son code behind `MainPage.xaml.cs` dans le folder `View`.
   - Vérifier si les `namespace` sont toujours correct normalement votre IDE vous propose de les changer automatiquement.
 
-![two](/Screen/1_ajout_folders_MVVM.png)
+![three](https://github.com/8b477/Memo-MAUI/blob/main/Screen/2_placer_dans_view.png)   
 
 Voici à quoi doit ressembler votre fichier :
 
@@ -848,13 +855,15 @@ namespace Tuto_MAUI.View   <----------------------------
 </Shell>
 ```
 
-Lancer l'app pour vérifier que celle fonctionne toujours correctement.
+Lancer l'app pour vérifier que celle fonctionne toujours correctement.  
 
-1.2 Crétion d'une simple classe _cs_ => `MainPageViewModel.cs`.
+---  
 
-![three](/Screen/3_deplacer_dans_viewmodel.png)
+1.2 Création d'une simple classe _cs_ => `MainPageViewModel.cs`.
 
-1.3 Déplacer la logique du code du fichier behind de la View dans notre nouvelle classe :
+1.3 Déplacer la logique du code du fichier behind de la View dans notre nouvelle classe :  
+
+![three](https://github.com/8b477/Memo-MAUI/blob/main/Screen/3_deplacer_dans_viewmodel.png)
 
 ```cs
 namespace Tuto_MAUI.ViewModel
@@ -897,10 +906,12 @@ A ce stade vous constatez que des erreurs sont apparu dans notre classe **MainPa
 - CounterBtn.Text = $"Clicked {count} time";
 - CounterBtn.Text = $"Clicked {count} times";
 - SemanticScreenReader.Announce(CounterBtn.Text);
-  C'est tout à fait normal puisque avant ont récupèrais le **Button** dans le code behind et les deux fichiers était lié via cette ligne dans le xaml :
+  C'est tout à fait normal puisque avant ont récupèrais le **Button** dans le code behind et les deux fichiers était lié via cette ligne dans le xaml :  
 - x:Class="Tuto_MAUI.View.MainPage"
   Et l'on pouvais changer le texte du **Button** via un évenement sur le **Button**
+  
   Voici comment résoudre se problème :
+  
 - En premier retournons du côté **View** dans notre fichier **MainPage.xaml** et ajoutons ceci :
 
 ```xml
@@ -948,7 +959,7 @@ A ce stade vous constatez que des erreurs sont apparu dans notre classe **MainPa
 </ContentPage>
 ```
 
-Cool mais ça n'a pas résolu notre problème de base, le fichier **MainPageViewModel** indique toujours les même erreurs :(
+Cool mais ça n'a pas résolu notre problème de base, le fichier **MainPageViewModel** indique toujours les même erreurs 😓
 Modfions donc notre fichier **MainPageViewModel** comme ceci :
 
 ```cs
@@ -981,7 +992,7 @@ namespace Tuto_MAUI.ViewModel
 }
 ```
 
-Bonne nouvelle plus d'erreurs dans notre ViewModel =D
+Bonne nouvelle plus d'erreurs dans notre ViewModel 😁
 Maitenant retournon dans notre View pour lui ajouter notre varibale **ButtonText** et son évènement **OnCounterClicked**
 
 ```xml
@@ -1028,6 +1039,9 @@ Maitenant retournon dans notre View pour lui ajouter notre varibale **ButtonText
 </ContentPage>
 ```
 
+---  
+
+
 Tester !
 Si vous avez bien suivis les étapes, l'application à exactement le même comportement qu'au tout début.
 Alors pourquoi avoir fait tout ça si c'est pour avoir le même résulat ??
@@ -1038,18 +1052,18 @@ En résumer :
 - La **View** comme sont nom l'indique est une vue, c'est ici que tu met en place le visuel des éléments de ton écran rien de plus.
 - La **ViewModel** elle s'est le cerveau, elle vas s'occuper d'implémenter la logique spécifique de chaque éléments, que se soit des variable ou des évents.
 
-### On continue ? =D
+### On continue ? 🥳
 
 2. Ajoutons une nouvelle page pour comprendre la logique de navigation.  
    Plusieurs solutions s'offre à nous, je vous en présente une mais n'hésitez à découvrire les autres par vous même.
 
 - Création de ma nouvelle **View** dans le dossier **View**, clique droit sur le folder **View** et choisir _Nouvel élément_ voire image ci-dessous.
 
-![four](/Screen/4_ajout_nouvelle_view.png)
+![four](https://github.com/8b477/Memo-MAUI/blob/main/Screen/4_ajout_nouvelle_view.png)
 
 -
 
-![five](/Screen/5_ajout_nouvelle_view.png)
+![five](https://github.com/8b477/Memo-MAUI/blob/main/Screen/5_ajout_nouvelle_view.png)
 
 Nous avons donc une nouvelle page j'ai rajouter un petit **Label** et fait une séparation visuel entre les deux éléments voici le code :
 
@@ -1187,8 +1201,11 @@ namespace Tuto_MAUI
 
 ```
 
+---  
+
+
 On test ?
-Parfait ! on à mis en place une navigation simple et efficace, si vous êtes observateur vous avez vu qu'il y a une flèche qui nous permet de revenir sur la page précédente, trop facile MAUI =D
+Parfait ! on à mis en place une navigation simple et efficace, si vous êtes observateur vous avez vu qu'il y a une flèche qui nous permet de revenir sur la page précédente, trop facile MAUI 😎
 
 ### Petit récap :
 
