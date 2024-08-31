@@ -905,12 +905,12 @@ A ce stade vous constatez que des erreurs sont apparu dans notre classe **MainPa
 
 - CounterBtn.Text = $"Clicked {count} time";
 - CounterBtn.Text = $"Clicked {count} times";
-- SemanticScreenReader.Announce(CounterBtn.Text);
+- SemanticScreenReader.Announce(CounterBtn.Text);  
   C'est tout à fait normal puisque avant ont récupèrais le **Button** dans le code behind et les deux fichiers était lié via cette ligne dans le xaml :  
-- x:Class="Tuto_MAUI.View.MainPage"
+- x:Class="Tuto_MAUI.View.MainPage"  
   Et l'on pouvais changer le texte du **Button** via un évenement sur le **Button**
   
-  Voici comment résoudre se problème :
+ ### Voici comment résoudre se problème :
   
 - En premier retournons du côté **View** dans notre fichier **MainPage.xaml** et ajoutons ceci :
 
@@ -959,7 +959,7 @@ A ce stade vous constatez que des erreurs sont apparu dans notre classe **MainPa
 </ContentPage>
 ```
 
-Cool mais ça n'a pas résolu notre problème de base, le fichier **MainPageViewModel** indique toujours les même erreurs 😓
+Cool mais ça n'a pas résolu notre problème de base, le fichier **MainPageViewModel** indique toujours les même erreurs 😓  
 Modfions donc notre fichier **MainPageViewModel** comme ceci :
 
 ```cs
@@ -992,8 +992,8 @@ namespace Tuto_MAUI.ViewModel
 }
 ```
 
-Bonne nouvelle plus d'erreurs dans notre ViewModel 😁
-Maitenant retournon dans notre View pour lui ajouter notre varibale **ButtonText** et son évènement **OnCounterClicked**
+Bonne nouvelle plus d'erreurs dans notre ViewModel 😁  
+Maitenant retournon dans notre View pour lui ajouter notre variable **ButtonText** et son évènement **OnCounterClicked**
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -1042,12 +1042,12 @@ Maitenant retournon dans notre View pour lui ajouter notre varibale **ButtonText
 ---  
 
 
-Tester !
-Si vous avez bien suivis les étapes, l'application à exactement le même comportement qu'au tout début.
-Alors pourquoi avoir fait tout ça si c'est pour avoir le même résulat ??
-Tout simplement pour une meilleur séparation des **Responsabilité**, en effet maintenant notre View ne fait que afficher des données 'bêtement',
-elle ne connais rien à la logique de l'évènement ni au contenu des variables qu'elle affiche.
-En résumer :
+Tester !  
+Si vous avez bien suivis les étapes, l'application à exactement le même comportement qu'au tout début.  
+Alors pourquoi avoir fait tout ça si c'est pour avoir le même résulat ??  
+Tout simplement pour une meilleur séparation des **Responsabilité**, en effet maintenant notre View ne fait que afficher des données 'bêtement',  
+elle ne connais rien à la logique de l'évènement ni au contenu des variables qu'elle affiche.  
+### En résumer :
 
 - La **View** comme sont nom l'indique est une vue, c'est ici que tu met en place le visuel des éléments de ton écran rien de plus.
 - La **ViewModel** elle s'est le cerveau, elle vas s'occuper d'implémenter la logique spécifique de chaque éléments, que se soit des variable ou des évents.
