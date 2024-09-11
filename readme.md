@@ -500,7 +500,7 @@ L'utilisation de ce package simplifie le code il suffit d'utiliser par exemple l
 
 ```c#
 [ObservableProperty]
-private string _titlePage = "Accueil";
+private string _title = "Accueil";
 ```
 
 Pour ne pas à avoir les étapes habituelle pour un binding de propriété d'un ViewModel à une View
@@ -683,10 +683,10 @@ namespace MAUIAppTest.ViewModels
         [RelayCommand]
         private async Task SubmitDataFromConnectionForm()
         {
-            if (string.IsNullOrEmpty(_email))
+            if (string.IsNullOrEmpty(Email))
                 await Application.Current.MainPage.DisplayAlert("Erreur", "le champ email doit être compléter", "OK");
 
-            if (string.IsNullOrEmpty(_password))
+            if (string.IsNullOrEmpty(Password))
                 await Application.Current.MainPage.DisplayAlert("Erreur", "le champ password doit être compléter", "OK");
 
             LogUser logUser = new(Email, Password);
