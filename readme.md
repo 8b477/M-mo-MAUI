@@ -16,7 +16,7 @@
 - [Utilisation du package 'CommunityToolkit.Mvvm'](#twelve)
 - [Explication des balises de binding dans le xaml](#thirteen)
 - [Utilisation d'un Modèle](#fourteen)
-- [Tuto MAUI, créer une App facilement c'est ici !](#fifteen)
+- [Tuto MAUI, créer une App facilement c'est ici !](#fifteen) ⬅️⬅️⬅️⬅️⬅️⬅️⬅️⬅️
 
 ---
 
