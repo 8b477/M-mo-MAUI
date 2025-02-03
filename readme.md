@@ -1,4 +1,4 @@
-# Aide mémoire : MAUI
+# Aide mémoire MAUI + Mini app step by step avec pokeAPI
 
 ## Sommaire
 
